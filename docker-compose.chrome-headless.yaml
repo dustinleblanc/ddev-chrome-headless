@@ -1,15 +1,41 @@
 #ddev-generated
 services:
   chrome-headless:
+    cap_add:
+      - SYS_ADMIN
+    shm_size: 2g
     container_name: ddev-${DDEV_SITENAME}-chrome-headless
-    image: ${CHROME_HEADLESS_DOCKER_IMAGE:-ddev/ddev-utilities:latest}
-    command: tail -f /dev/null
-    restart: "no"
+    image: ${CHROME_HEADLESS_DOCKER_IMAGE:-isholgueras/chrome-headless:latest}
+    command:
+      - --disable-background-networking
+      - --disable-default-apps
+      - --disable-extensions
+      - --disable-gpu
+      - --disable-software-rasterizer
+      - --disable-sync
+      - --disable-translate
+      - --disable-web-security
+      - --headless
+      - --hide-scrollbars
+      - --metrics-recording-only
+      - --mute-audio
+      - --no-first-run
+      - --no-sandbox
+      - --remote-debugging-port=9222
+      - --remote-debugging-address=0.0.0.0
+      - --safebrowsing-disable-auto-update
+      - --user-data-dir /home/chromium/data
+      - --disable-web-security
+      - --ignore-certificate-errors
+      - --disable-site-isolation-trials
+      - --window-size=1920,1080
+    restart: "unless-stopped"
     # These labels ensure this service is discoverable by DDEV.
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.approot: ${DDEV_APPROOT}
-
+    ports:
+      - 9222
     volumes:
       - ".:/mnt/ddev_config"
       - "ddev-global-cache:/mnt/ddev-global-cache"
