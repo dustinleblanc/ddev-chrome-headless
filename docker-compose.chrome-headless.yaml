@@ -3,10 +3,10 @@ services:
   chrome-headless:
     cap_add:
       - SYS_ADMIN
-    shm_size: 2g
     container_name: ddev-${DDEV_SITENAME}-chrome-headless
     image: ${CHROME_HEADLESS_DOCKER_IMAGE:-isholgueras/chrome-headless:latest}
     command:
+      - --disable-dev-shm-usage 
       - --disable-background-networking
       - --disable-default-apps
       - --disable-extensions

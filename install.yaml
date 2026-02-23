@@ -2,5 +2,6 @@ name: chrome-headless
 
 project_files:
   - docker-compose.chrome-headless.yaml
+  - config.chrome-headless.yaml
 
 ddev_version_constraint: '>= v1.24.3'
